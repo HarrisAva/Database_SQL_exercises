@@ -1,0 +1,49 @@
+CREATE TABLE Authors (
+    AuthorID INT PRIMARY KEY,
+    Name TEXT,
+    Bio TEXT
+);
+
+CREATE TABLE Publishers (
+    PublisherID INT PRIMARY KEY,
+    Name TEXT,
+    Address TEXT
+);
+
+CREATE TABLE Books (
+    BookID INT PRIMARY KEY,
+    Title TEXT,
+    AuthorID INT,
+    PublisherID INT,
+    YearPublished INT,
+    FOREIGN KEY (AuthorID) REFERENCES Authors(AuthorID),
+    FOREIGN KEY (PublisherID) REFERENCES Publishers(PublisherID)
+);
+
+INSERT INTO Authors (AuthorID, Name, Bio) VALUES (1, 'George Orwell', 'English novelist and essayist...');
+INSERT INTO Publishers (PublisherID, Name, Address) VALUES (1, 'Penguin Books', 'London, UK');
+
+INSERT INTO Books (BookID, Title, AuthorID, PublisherID, YearPublished)
+VALUES (1, 'Book Title', 1, 1, 1949);
+
+select * from books;
+select * from authors;
+
+UPDATE Books
+SET YearPublished = 1950
+WHERE Title = '1984' AND AuthorID = 1;
+
+select * from books;
+
+SELECT
+    Authors.Name AS AuthorName,
+    Publishers.Name AS PublisherName,
+    Books.Title,
+    Books.YearPublished
+FROM
+    Books
+INNER JOIN Authors ON Books.AuthorID = Authors.AuthorID
+INNER JOIN Publishers ON Books.PublisherID = Publishers.PublisherID;
+
+DELETE FROM Books
+WHERE PublisherID IN (SELECT PublisherID FROM Publishers WHERE Name = 'Penguin Books');

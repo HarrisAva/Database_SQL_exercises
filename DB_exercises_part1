@@ -1,80 +1,80 @@
 CREATE TABLE Employees (
-    EmployeeID int,
-    FirstName varchar(255),
-    LastName varchar(255),
-    Department varchar(255)
+EmployeeID int,
+FirstName varchar(255),
+LastName varchar(255),
+Department varchar(255)
 );
 
 CREATE TABLE Employees2 (
-    EmployeeID int,
-    FirstName varchar(255),
-    LastName varchar(255),
-    DepartmentID int
+EmployeeID int,
+FirstName varchar(255),
+LastName varchar(255),
+DepartmentID int
 );
 
 CREATE TABLE Departments (
-    DepartmentID int,
-    DepartmentName varchar(255)
+DepartmentID int,
+DepartmentName varchar(255)
 );
 
 CREATE TABLE Inventory (
-    ItemID int,
-    ItemName varchar(255),
-    UnitsInStock int
+ItemID int,
+ItemName varchar(255),
+UnitsInStock int
 );
 
 CREATE TABLE Books (
-    BookID int,
-    Title varchar(255),
-    Author varchar(255),
-    Price float
+BookID int,
+Title varchar(255),
+Author varchar(255),
+Price float
 );
 
 CREATE TABLE Courses (
-    CourseID int,
-    CourseName varchar(255),
-    Department varchar(255),
-    Credits int
+CourseID int,
+CourseName varchar(255),
+Department varchar(255),
+Credits int
 );
 
 CREATE TABLE RestaurantReviews (
-    ReviewID int,
-    RestaurantName varchar(255),
-    Rating varchar(255),
-    Reviewer varchar(255),
-    ReviewDate date
+ReviewID int,
+RestaurantName varchar(255),
+Rating varchar(255),
+Reviewer varchar(255),
+ReviewDate date
 );
 
 CREATE TABLE Sales (
-    SaleID int,
-    ProductID int,
-    QuantitySold int,
-    SaleDate date
+SaleID int,
+ProductID int,
+QuantitySold int,
+SaleDate date
 );
 
 CREATE TABLE Products (
-    ProductID int,
-    ProductName varchar(255),
-    Price float,
-    Category varchar(255)
+ProductID int,
+ProductName varchar(255),
+Price float,
+Category varchar(255)
 );
 
 CREATE TABLE Products2(
-    ProductID int,
-    ProductName varchar(255)
+ProductID int,
+ProductName varchar(255)
 );
 
 CREATE TABLE Orders (
-    OrderID int,
-    ProductID int,
-    OrderDate date
+OrderID int,
+ProductID int,
+OrderDate date
 );
 
 CREATE TABLE WeatherData (
-    RecordID int,
-    Date date,
-    Temperature float,
-    City varchar(255)
+RecordID int,
+Date date,
+Temperature float,
+City varchar(255)
 );
 
 INSERT INTO Employees (EmployeeID, FirstName, LastName, Department) VALUES (1, 'Alice', 'Johnson', 'HR');
@@ -119,9 +119,58 @@ INSERT INTO Employees2 (EmployeeID, FirstName, LastName, DepartmentID) VALUES (2
 
 INSERT INTO Departments (DepartmentID, DepartmentName) VALUES (1, 'HR');
 INSERT INTO Departments (DepartmentID, DepartmentName) VALUES (2, 'IT');
-
-
 SELECT e.FirstName, e.LastName, d.DepartmentName from Employees2 e
 INNER JOIN Departments d ON e.DepartmentID = d.DepartmentID;
 
+=================================================
 
+-- Exercise 2
+-- Objective: Select only the FirstName and LastName columns from the Employees table.
+-- Table: Employees
+-- Columns: EmployeeID (int), FirstName (text), LastName (text), Department (text)
+-- Data:
+-- (1, 'Alice', 'Johnson', 'HR')
+-- (2, 'Bob', 'Smith', 'IT')
+-- The expected outcome should be
+
+| --  | FirstName | LastName |
+| --- | --------- | -------- |
+| --  | Alice     | Johnson  |
+| --  | Bob       | Smith    |
+
+CREATE TABLE Employees (
+EmployeeID int,
+FirstName varchar(255),
+LastName varchar(255),
+Department varchar(255)
+);
+
+INSERT INTO Employees (EmployeeID, FirstName, LastName, Department) VALUES (1, 'Alice', 'Johnson', 'HR');
+INSERT INTO Employees (EmployeeID, FirstName, LastName, Department) VALUES (2, 'Bob', 'Smith', 'IT');
+
+SELECT FirstName, LastName FROM Employees;
+
+-- Exercise 3
+-- Objective: Display details of items in the Inventory table that have less than 20 units in stock.
+-- Table: Inventory
+-- Columns: ItemID (int), ItemName (text), UnitsInStock (int)
+-- Data:
+-- (1, 'Printer Paper', 15)
+-- (2, 'Staples', 30)
+-- The expected outcome should be
+
+| --  | ItemID | ItemName      | UnitsInStock |
+| --- | ------ | ------------- | ------------ |
+| --  | 1      | Printer Paper | 15           |
+
+CREATE TABLE Inventory (
+ItemID int,
+ItemName varchar(255),
+UnitsInStock varchar(255)
+);
+
+INSERT INTO Inventory (ItemID, ItemName, UnitsInStock) VALUES (1, 'Printer Paper', 15);
+INSERT INTO Inventory (ItemID, ItemName, UnitsInStock) VALUES (2, 'Staples', 30);
+
+SELECT \* FROM Inventory
+WHERE UnitsInStock < 20;

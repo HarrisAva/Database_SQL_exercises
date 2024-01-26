@@ -1,0 +1,219 @@
+CREATE TABLE Authors (
+    AuthorID INT PRIMARY KEY,
+    Name TEXT,
+    Bio TEXT
+);
+
+-- Exercise 1 =========================
+
+-- Objective: Insert data into a Customers table.
+-- Table: Customers
+-- Columns: CustomerID (int), Name (text), Email (text)
+-- Task: Insert three new customers into the Customers table.
+-- Data:
+-- (1, 'Alice Johnson', 'alice.johnson@email.com')
+-- (2, 'Bob Smith', 'bob.smith@email.com')
+-- (3, 'Charlie Brown', 'charlie.brown@email.com')
+-- The expected outcome should be
+
+-- | CustomerID | Name          | Email                   |
+-- | ---------- | ------------- | ----------------------- |
+-- | 1          | Alice Johnson | alice.johnson@email.com |
+-- | 2          | Bob Smith     | bob.smith@email.com     |
+-- | 3          | Charlie Brown | charlie.brown@gmail.com |
+
+CREATE TABLE Customers (
+    CustomerID int,
+    Name varchar(255),
+    Email varchar(255)
+);
+
+INSERT INTO Customers (CustomerID, Name, Email) VALUES (1, 'Alice Johnson', 'alice.johnson@email.com');
+INSERT INTO Customers (CustomerID, Name, Email) VALUES (2, 'Bob Smith', 'bob.smith@email.com');
+INSERT INTO Customers (CustomerID, Name, Email) VALUES (3, 'Charlie Brown', 'charlie.brown@email.com');
+
+SELECT * FROM Customers;
+
+-- Exercise 2
+-- Continue from the previous exercises.
+
+-- Objective: Update the email address of a specific customer.
+-- Table: Customers
+-- Task: Change the email address of the customer with CustomerID 2 to bob.smith@newdomain.com.
+
+UPDATE Customers
+SET Email = 'smith@newdomain.com'
+WHERE CustomerID = 2;
+
+-- Exercise 3
+-- Objective: Delete a customer from the Customers table.
+-- Table: Customers
+-- Task: Remove the customer with CustomerID 3 from the table.
+-- Expected Outcome: The table should no longer include the customer with CustomerID 3.
+
+DELETE FROM Customers
+WHERE CustomerID = 3;
+
+-- Exercise 4
+-- Objective: Retrieve detailed order information.
+-- Tables: Customers, Orders, Books
+-- Task: Write a query to display the customer name, book title, and quantity for each order.
+-- Expected Outcome: A list of all orders with customer names, book titles, and quantities.
+
+CREATE TABLE Customers (
+    CustomerID int,
+    Name varchar(255),
+    OrderID int
+
+);
+
+CREATE TABLE Books (
+    BookID int,
+    Title varchar(255),
+    OrderID int
+
+);
+
+CREATE TABLE Orders (
+    OrderID int,
+    BookID int,
+    Quantity int,
+    CustomerID int
+);
+
+INSERT INTO Customers (CustomerID, Name, OrderID) VALUES (1, 'John', 1);
+INSERT INTO Customers (CustomerID, Name, OrderID) VALUES (2, 'Amy', 2);
+
+INSERT INTO Books (BookID, Title, OrderID) VALUES (1, 'Title 1', 1);
+INSERT INTO Books (BookID, Title, OrderID) VALUES (2, 'Title 2', 2);
+
+INSERT INTO Orders (OrderID, BookID, Quantity, CustomerID) VALUES (1,1,2,1);
+INSERT INTO Orders (OrderID, BookID, Quantity, CustomerID) VALUES (2,2,1,2);
+
+
+SELECT Customers.Name, Books.Title, Orders.Quantity FROM Orders
+INNER JOIN Customers ON Customers.OrderID = Orders.OrderID
+INNER JOIN Books ON Books.OrderID = Orders.OrderID
+
+-- Exercise 5
+-- Objective: Normalize a denormalized table.
+-- Table: StudentGrades (denormalized)
+-- Columns: StudentID, Name, Subject, Grade
+-- Task: Split the StudentGrades table into two tables: Students and Grades, ensuring normalization.
+-- Expected Outcome: Two tables, Students with StudentID and Name columns, and Grades with StudentID, Subject, and Grade columns.
+
+CREATE TABLE Students (
+    StudentID int,
+    Name varchar(255)
+);
+
+CREATE TABLE Grades (
+    Subject varchar (255),
+    Grade varchar (255),
+    StudentID int
+);
+
+INSERT INTO Students (StudentID, Name) VALUES (1, 'John');
+INSERT INTO Students (StudentID, Name) VALUES (2, 'Amy');
+
+INSERT INTO Grades (Subject, Grade, StudentID) VALUES ('Math', 'A', 1);
+INSERT INTO Grades (Subject, Grade, StudentID) VALUES ('Math', 'B', 2);
+INSERT INTO Grades (Subject, Grade, StudentID) VALUES ('Biology', 'C', 1);
+INSERT INTO Grades (Subject, Grade, StudentID) VALUES ('Biology', 'D', 2);
+
+
+SELECT Students.Name, Grades.Subject, Grades.Grade FROM Students
+INNER JOIN Grades ON Students.StudentID = Grades.StudentID
+
+-- ========== ER Diagrams Exercises ========================
+-- Instructions
+-- Use a cloud-based service or a local IDE to create ER diagrams. Recommended tools:
+-- Lucid Charts
+-- Diagrams.net
+-- Visual Studio Code with the Draw.io Integration extension.
+-- One to One Relationships
+-- Using the above tools, create ER diagrams for the following exercises.
+
+-- Exercise 1: Apartment Complex
+
+-- Entities:
+
+-- Apartment: id (Primary Key), room_number, active (Boolean), renter_id (Foreign Key)
+-- Renter: id (Primary Key), first_name, last_name, email, license_number, apartment_id (Foreign Key)
+-- Task: Create an ER diagram showing each apartment linked to one unique renter and vice versa.
+# ER 1:1 - One to One
+# An apartment has a single renter.
+# A renter rent an apartment
+
+
+-- Exercise 2: Airport
+
+-- Entities:
+
+-- Person: id (Primary Key), name, date_of_birth, passport_id (Foreign Key)
+-- Passport: id (Primary Key), passport_number, issue_date, expiry_date, person_id (Foreign Key)
+-- Task: Illustrate how each person has a unique passport, with a one-to-one correspondence.
+
+# ER 1:1 - one to many
+# A person have a passport
+# Each passport belongs to a single person
+# Note: a person may have many passports - old and new, or if they hold multiple nationalities. This will be 1:N relationship
+
+
+--### One to Many Relationships
+-- Create ER diagrams for the following exercises.
+
+-- Exercise 3: Library
+
+-- Entities:
+
+-- Book: id (Primary Key), title, publication_year
+-- Author: id (Primary Key), name, nationality
+-- BookAuthor: book_id (Foreign Key), author_id (Foreign Key)
+-- Task: Create an ER diagram to illustrate a scenario where each book can be written by multiple authors. The "BookAuthor" table acts as an intermediary to link books with their authors, reflecting a one-to-many relationship from authors to books.
+
+# ER 1:N - one to many
+# Each book can be written by many authors
+
+-- Exercise 4: Rent (Customers and Cars)
+
+-- Entities:
+
+-- Customer: id (Primary Key), name, contact_info
+-- Car: id (Primary Key), make, model
+-- Rental: rental_id (Primary Key), customer_id (Foreign Key), car_id (Foreign Key), rental_date, return_date
+-- Task: Develop an ER diagram showing how a customer can rent multiple cars over time. The "Rental" entity serves as an intermediary, linking customers with cars and capturing details of each rental transaction.
+# ER 1:N - one to many
+# A customer rent many cars over time with record of rental and return date
+# A car having multiple rental records with rental_id and customer_id
+
+-- Many to Many Relationships
+-- Exercise 5: Grade School
+
+-- Entities:
+
+-- Student: id (Primary Key), name, grade_level
+-- Course: id (Primary Key), course_name, department
+-- To establish a many-to-many relationship, we need to create a third table to link the two entities.
+
+-- Task: Show how students can enroll in multiple courses, with courses having multiple students.
+
+# ER N:N - many to many
+# Students enrolls in multiple courses
+# A department having multiple courses
+
+-- Exercise 6: Work
+
+-- Entities:
+
+-- Employee: id (Primary Key), name, department
+-- Project: id (Primary Key), project_name, deadline
+-- To establish a many-to-many relationship, we need to create a third table to link the two entities.
+
+-- Task: Create an ER diagram where employees work on multiple projects, and each project involves multiple employees.
+# ER N:N - many to many
+# Employees work on multiple projects
+# A department has many projects
+
+-- Optional
+-- Revisit the project you've worked on in the Front End Cohort and design an entity relationship diagram for the database you've created.
